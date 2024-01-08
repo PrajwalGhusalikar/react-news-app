@@ -6,37 +6,39 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 export class App extends Component {
   state = {
-    name: this.name ? this.name : "us",
+    countryCode:  "us",
+    category : this.category
   };
 
   // Callback function to handle data received from the
   //child component
-  handleCallback = (childData) => {
+  countryCodeChange = (childData) => {
     // Update the name in the component's state
-    this.setState({ name: childData });
-    // just for testing remove this after test
-    {
-      console.log(
-        "process.env.REACT_APP_NEWS_API_KEY-----",
-        process.env.REACT_APP_NEWS_API_KEY
-      );
-    }
-    /**ends here */
+    this.setState({ countryCode: childData });
+
+ 
+
+  };
+  categoryChange = (childData) => {
+    // Update the name in the component's state
+    this.setState({ category: childData?childData:"general" });
+ 
   };
 
   apiKey = process.env.REACT_APP_NEWS_API_KEY;
 
   render() {
-    const { name } = this.state;
+    const { countryCode, category } = this.state;
     return (
       <div>
         <Router>
-          <Navbar parentCallback={this.handleCallback} />
+        {/* <>{window.location.pathname}</> */}
+          <Navbar onCountryCodeChange={this.countryCodeChange} onCategoryChange={this.categoryChange}  />
           {/* <Navbar /> */}
 
-          {console.log("name", name)}
+  
           <Routes>
-            <Route
+           { /*<Route
               exact
               path={"/technology"}
               element={
@@ -101,29 +103,31 @@ export class App extends Component {
                 />
               }
             />
+            */}
             <Route
               exact
-              path="/general"
+              path="/"
               element={
                 <News
                   apiKey={this.apiKey}
                   key={"general"}
                   pageDisplayed={6}
-                  country={name}
+                  country={countryCode}
                   category={"general"}
                 />
               }
             />
+            {console.log('category', category)}
             <Route
               exact
-              path={name}
+              path={category}
               element={
                 <News
                   apiKey={this.apiKey}
-                  key={name}
-                  pageDisplayed={6}
-                  country={name}
-                  category={"general"}
+                  key={category}
+                  pageDisplayed={9}
+                  country={countryCode}
+                  category={category}
                 />
               }
             />

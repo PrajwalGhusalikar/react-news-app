@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 export class Navbar extends Component {
-  constructor() {
-     super();
-     this.state = {
-       selectedCountry: "us",
-     };
-   }
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     selectedCountry: "in",
+  //   };
+  // }
   render() {
 
     
@@ -16,27 +16,24 @@ export class Navbar extends Component {
     //   // this.value1 = document.querySelector("#searchvalue").value;
     //   this.value1 = event.target.value;
     //   this.props.parentCallback(this.value1);
-
+    //   // console.log(this.value1)
     // };  
 
 
 
    //dropdown country
-    const countryCodes = ["in", "us", "jp","au", 'br', 'pk', 'en', 'cn'];
+    const countryCodes = ["in", "us", "jp","au"];
+    console.log("index of ", countryCodes)
 
     const handleCountrySelect = (e) => {
-      this.setState({ selectedCountry: e.target.value });
-      console.log('this.state.selectedCountry', this.state.selectedCountry)
-      this.props.onCountryCodeChange(e.target.value);
-    };
-    const handleCategoryChange = (category) => {
-      // this.category = e.target.value
-   
-      this.props.onCategoryChange(category);
+      this.countryVal = e.target.value
+      console.log("Selected country", e.target.value);
+      this.props.parentCallback(this.countryVal);
 
       // this.setState({ selectedCountry: e.target.value });
-     
+      // console.log("this.state.selectedCountry----", this.state.selectedCountry);
     };
+
     // this.onclick=(event)=>{
     //   this.value1 = document.querySelector("#countrycode").value;
     // }
@@ -74,7 +71,6 @@ export class Navbar extends Component {
                     className="nav-link active"
                     aria-current="page"
                     to="/sports"
-                    onClick={(e) => handleCategoryChange('sports')}
                   >
                     sports
                   </Link>
@@ -84,7 +80,6 @@ export class Navbar extends Component {
                     className="nav-link active"
                     aria-current="page"
                     to="/business"
-                    onClick={(e) => handleCategoryChange('business')}
                   >
                     business
                   </Link>
@@ -94,7 +89,6 @@ export class Navbar extends Component {
                     className="nav-link active"
                     aria-current="page"
                     to={"/technology"}
-                    onClick={(e) => handleCategoryChange('technology')}
                   >
                     technology
                   </Link>
@@ -104,7 +98,6 @@ export class Navbar extends Component {
                     className="nav-link active"
                     aria-current="page"
                     to="/health"
-                    onClick={(e) => handleCategoryChange('health')}
                   >
                     Health
                   </Link>
@@ -113,9 +106,9 @@ export class Navbar extends Component {
                   <Link
                     className="nav-link active"
                     aria-current="page"
-                    to="/science"  onClick={(e) => handleCategoryChange('science')}
+                    to="/science"
                   >
-                    science
+                    Science
                   </Link>
                 </li>
                 <li className="nav-item">
@@ -123,7 +116,6 @@ export class Navbar extends Component {
                     className="nav-link active"
                     aria-current="page"
                     to="/general"
-                    onClick={(e) => handleCategoryChange('general')}
                   >
                     general
                   </Link>
@@ -157,27 +149,27 @@ export class Navbar extends Component {
           </div>
 
           <div className="container d-flex justify-content-end my-2 mx-2" style={{width:"auto"}}>
-            <div className="container">
-              <select
-            className="container btn-sm btn-primary "
-            style={{width:"60px"}}
+            <div className="container"><select
+            className="container "
+            style={{width:"100px"}}
               name="Countries"
               onChange={(e) => handleCountrySelect(e)}
-              value={this.state.selectedCountry}
+              value={this.selectedCountry}
             >
-        
+              <option value={this.selectedCountry}>Country</option>
+              {console.log('params', this.$route)}
               {countryCodes.map((country, key) => (
                 <option key={key} value={country}>
-              
+                 <Link  className="navbar-brand" to={this.countryVal}>
                 {country}
-               
+                 </Link> 
                 </option>
               ))}
             </select></div>
             
-            {/* <div className="container" > <Link className=" btn btn-sm btn-primary navbar-brand" to={this.countryVal}>
+            <div className="container"> <Link className=" btn btn-sm btn-primary navbar-brand" to={this.countryVal}>
                 Go 
-            </Link> </div> */}
+            </Link> </div>
            
        
           </div>

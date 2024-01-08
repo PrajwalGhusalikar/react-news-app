@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import PropTypes from "prop-types";
-import InfiniteScroll from "react-infinite-scroll-component";
+// import InfiniteScroll from "react-infinite-scroll-component";
 
 export class News extends Component {
   static defaultProps = {
     // country : this.props.name,
 
-    category: "sports",
+    category: "general",
   };
 
   static propTypes = {
@@ -26,13 +26,29 @@ export class News extends Component {
       page: 1,
       loading: false,
       totalResults: 0,
+      // countryCode: props.country,
+      // category : props.category
     };
     // document.title = this.capitalizeFirst(this.props.category);
     document.title = this.props.category;
   }
 
   async componentDidMount() {
+    console.log('category', this.props.category)
     this.loadNewsData();
+   
+  }
+
+  componentDidUpdate(preProps,preState){
+   
+      
+       if(preProps.country !== this.props.country) {
+        this.loadNewsData();
+       }
+       if(preProps.category !== this.props.category) {
+        this.loadNewsData();
+       }
+       
   }
 
 //   useEffect(() => {
@@ -52,8 +68,9 @@ export class News extends Component {
   }
 
   previousPage = async () => {
-    this.loadNewsData();
     this.setState({ page: this.state.page - 1 });
+    this.loadNewsData();
+   
   };
   nextPage = async () => {
     if (
@@ -61,9 +78,9 @@ export class News extends Component {
       Math.ceil(this.state.totalResults / this.props.pageDisplayed)
     ) {
     } else {
-      this.loadNewsData();
       this.setState({ page: this.state.page + 1 });
-      // console.log(this.url1);
+      this.loadNewsData();
+      
     }
   };
 
@@ -90,7 +107,7 @@ export class News extends Component {
             <div className="row ">
               {!this.state.loading &&
                 this.state.articles?.map((elements) => {
-                  //console.log(elements)
+             
 
                   return (
                     <div className="col-md-4" key={elements.url}>
@@ -115,15 +132,14 @@ export class News extends Component {
             </div>
           </div>
         </InfiniteScroll> */}
-        {/* {console.log("fetchee",this.fetchMoreData())} */}
+  
 
         {this.state.loading && <Spinner />}
         <div className="container">
           <div className="row ">
             {!this.state.loading &&
               this.state.articles?.map((elements) => {
-                //console.log(elements)
-
+          
                 return (
                   <div className="col-md-4" key={elements.url}>
                     <NewsItem
